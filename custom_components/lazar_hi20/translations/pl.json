@@ -1,0 +1,21 @@
+{
+    "config": {
+      "step": {
+        "user": {
+          "title": "Lazar Hi20",
+          "description": "Zaloguj się do konta Lazar (hkslazar.net)",
+          "data": {
+            "login": "Login",
+            "password": "Hasło"
+          }
+        }
+      },
+      "error": {
+        "auth": "Błędny login lub hasło"
+      },
+      "abort": {
+        "already_configured": "Integracja jest już skonfigurowana"
+      }
+    }
+  }
+  
