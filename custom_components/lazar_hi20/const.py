@@ -1,10 +1,9 @@
 DOMAIN = "lazar_hi20"
+NAME = "Lazar HI20"
 
-BASE_URL = "https://hkslazar.net"
-LOGIN_ENDPOINT = "/sollogin"
-DATA_ENDPOINT = "/oemSerwis"
+API_BASE = "https://hkslazar.net"
 
-CONF_LOGIN = "login"
+CONF_USERNAME = "username"
 CONF_PASSWORD = "password"
 
-SCAN_INTERVAL = 30
+UPDATE_INTERVAL = 30
