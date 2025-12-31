@@ -1,5 +1,6 @@
 {
-  "name": "Lazar Hi20",
-  "render_readme": true,
-  "content_in_root": false
+  "name": "Lazar HI20 Heat Pump",
+  "domain": "lazar_hi20",
+  "iot_class": "cloud_polling",
+  "render_readme": true
 }

@@ -1,13 +1,24 @@
-# Lazar Hi20 – Home Assistant
+# Lazar HI20 – Home Assistant
 
-Custom integration for Lazar Hi20 heat pump using official WEB API.
+Niestandardowa integracja Home Assistant dla pomp ciepła **Lazar HI20**.
 
-## Features
-- Full status monitoring
-- Temperature sensors
-- CWU thermostat
-- Mode & power control
-- Energy ready
+## Funkcje
+- Temperatury, pompy, grzałki
+- CWU i CO jako termostaty
+- Krzywa grzewcza z walidacją
+- Tryby pracy (Grzanie / Chłodzenie / CWU)
+- Energy Dashboard (kWh)
+- Dashboard Lovelace
 
-## Installation
-Copy `custom_components/lazar_hi20` into HA config directory.
+## Instalacja
+1. Skopiuj `custom_components/lazar_hi20` do katalogu HA
+2. Restart Home Assistant
+3. Ustawienia → Integracje → Dodaj → Lazar HI20
+4. Podaj login i hasło do hkslazar.net
+
+## Energy Dashboard
+Ustaw:
+- Źródło energii: `sensor.lazar_hi20_energia`
+
+## Dashboard
+Importuj `dashboards/lazar_hi20_dashboard.yaml`
