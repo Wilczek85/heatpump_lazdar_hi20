@@ -1,14 +1,15 @@
+import logging
 from datetime import timedelta
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-from .api import LazarAPI
-from .const import DOMAIN
+
+_LOGGER = logging.getLogger(__name__)
 
 class LazarCoordinator(DataUpdateCoordinator):
     def __init__(self, hass, api):
         super().__init__(
             hass,
-            logger=hass.logger,
-            name=DOMAIN,
+            _LOGGER,
+            name="Lazar HI20",
             update_interval=timedelta(seconds=30),
         )
         self.api = api
@@ -17,4 +18,4 @@ class LazarCoordinator(DataUpdateCoordinator):
         try:
             return await self.api.get_status()
         except Exception as err:
-            raise UpdateFailed(f"API error: {err}")
+            raise UpdateFailed(f"Lazar API error: {err}")
