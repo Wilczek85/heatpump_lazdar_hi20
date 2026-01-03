@@ -1,0 +1,28 @@
+title: Lazar HI20
+views:
+  - title: Status
+    cards:
+      - type: entities
+        title: System
+        entities:
+          - switch.lazar_hi20_power
+          - select.lazar_tryb_pracy
+          - sensor.lazar_alarmcnt
+
+  - title: Temperatury
+    cards:
+      - type: history-graph
+        hours_to_show: 24
+        entities:
+          - sensor.lazar_out
+          - sensor.lazar_cwu
+          - sensor.lazar_zew
+
+  - title: CWU
+    cards:
+      - type: thermostat
+        entity: climate.lazar_hi20
+
+  - title: Energia
+    cards:
+      - type: energy-distribution
