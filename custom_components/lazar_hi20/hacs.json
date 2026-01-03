@@ -1,8 +1,5 @@
-
 {
   "name": "Lazar HI20 Heat Pump",
   "content_in_root": false,
-  "domains": ["heatpump_lazdar_hi20"],
-  "country": "PL",
   "render_readme": true
 }

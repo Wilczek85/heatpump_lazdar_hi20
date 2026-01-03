@@ -1,34 +1,32 @@
-
 import aiohttp
+import async_timeout
 
 class LazarAPI:
     def __init__(self, session, username, password):
-        self.session = session
-        self.username = username
-        self.password = password
-        self.cookie = None
+        self._session = session
+        self._username = username
+        self._password = password
 
     async def login(self):
-        async with self.session.post(
-            "https://hkslazar.net/sollogin",
-            data={"login": self.username, "haslo": self.password},
-        ) as resp:
-            if "solaccess" in resp.cookies:
-                self.cookie = resp.cookies["solaccess"].value
-                return True
-            raise ConnectionError("Login failed")
+        async with async_timeout.timeout(10):
+            resp = await self._session.post(
+                "https://hkslazar.net/sollogin",
+                data={"login": self._username, "haslo": self._password}
+            )
+            resp.raise_for_status()
 
-    async def _headers(self):
-        return {"Cookie": f"solaccess={self.cookie}"}
-
-    async def get_data(self):
-        async with self.session.get(
-            "https://hkslazar.net/oemSerwis?what=bcst",
-            headers=await self._headers(),
-        ) as resp:
+    async def get_status(self):
+        async with async_timeout.timeout(10):
+            resp = await self._session.get(
+                "https://hkslazar.net/oemSerwis?what=bcst"
+            )
+            resp.raise_for_status()
             return await resp.json()
 
     async def set_param(self, param, value):
-        url = f"https://hkslazar.net/oemSerwis?what=setparam&param={param}&value={value}"
-        async with self.session.get(url, headers=await self._headers()) as resp:
-            return await resp.text()
+        async with async_timeout.timeout(10):
+            resp = await self._session.get(
+                f"https://hkslazar.net/oemSerwis?what=setparam&param={param}&value={value}"
+            )
+            resp.raise_for_status()
+            return await resp.json()

@@ -1,52 +1,31 @@
 from homeassistant.components.climate import ClimateEntity
-from homeassistant.components.climate.const import (
-    HVACMode,
-    ClimateEntityFeature,
-)
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.const import UnitOfTemperature
+from homeassistant.components.climate.const import HVACMode
 from .const import DOMAIN
 
 async def async_setup_entry(hass, entry, async_add_entities):
     coordinator = hass.data[DOMAIN][entry.entry_id]
+    async_add_entities([LazarClimate(coordinator)])
 
-    entities = [
-        LazarCWUClimate(coordinator),
-        LazarCOClimate(coordinator, 0),
-        LazarCOClimate(coordinator, 1),
-    ]
-
-    async_add_entities(entities)
-
-
-class LazarCWUClimate(CoordinatorEntity, ClimateEntity):
-    _attr_name = "CWU"
-    _attr_hvac_modes = [HVACMode.HEAT, HVACMode.OFF]
-    _attr_supported_features = ClimateEntityFeature.TARGET_TEMPERATURE
-    _attr_temperature_unit = UnitOfTemperature.CELSIUS
+class LazarClimate(ClimateEntity):
+    _attr_name = "Lazar HI20 Climate"
+    _attr_unique_id = "lazar_hi20_climate"
 
     def __init__(self, coordinator):
-        super().__init__(coordinator)
-        self._attr_unique_id = f"{coordinator.data['boxid']}_cwu"
+        self.coordinator = coordinator
+
+    @property
+    def temperature_unit(self):
+        return "°C"
 
     @property
     def current_temperature(self):
-        v = self.coordinator.data["stat"]["temps"]["cwu"]
-        return None if v == -9999 else v / 10
-
-    @property
-    def target_temperature(self):
-        return self.coordinator.data["params"]["cwu"]["tsetcomf"] / 10
-
-    async def async_set_temperature(self, **kwargs):
-        value = int(kwargs["temperature"] * 10)
-        await self.hass.async_add_executor_job(
-            self.coordinator.api.set_param,
-            "tsetcomf",
-            value,
-        )
-        await self.coordinator.async_request_refresh()
+        return self.coordinator.data["stat"]["temps"]["out"] / 10
 
     @property
     def hvac_mode(self):
-        return HVACMode.HEAT if self.coordinator.data["params"]["onoff"] == 1 else HVACMode.OFF
+        mode = self.coordinator.data["params"]["mode"]
+        return {0: HVACMode.HEAT, 1: HVACMode.COOL, 2: HVACMode.HEAT}.get(mode)
+
+    @property
+    def hvac_modes(self):
+        return [HVACMode.HEAT, HVACMode.COOL]
