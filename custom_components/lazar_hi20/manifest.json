@@ -2,7 +2,7 @@
   "domain": "heatpump_lazar_hi20",
   "name": "Lazar HI20 Heat Pump",
   "version": "2025.1.1",
-  "documentation": "https://github.com/Wilczek85/heatpump_lazdar_hi20",
+  "documentation": "https://github.com/Wilczek85/heatpump_lazar_hi20",
   "config_flow": true,
   "iot_class": "cloud_polling",
   "codeowners": ["@Wilczek85"],
